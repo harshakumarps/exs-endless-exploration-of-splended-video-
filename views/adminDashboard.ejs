@@ -1,0 +1,26 @@
+<%- include('header.ejs') %>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+</head>
+<body>
+  <h1>Welcome to the Admin Dashboard, <%= admin.username %>!</h1>
+  
+ 
+  <h2>Delete Video by ID</h2>
+<form action="/admin/deleteById" method="POST">
+  <label for="videoId">Video ID:</label>
+  <input type="text" id="videoId" name="videoId" required>
+  <button type="submit">Delete Video</button>
+</form>
+
+<% if (message) { %>
+  <p><%= message %></p>
+<% } %>
+
+<form action="/admin/logout" method="POST">
+  <button type="submit">Logout</button>
+</form>
+</body>
+<%- include('footer.ejs') %>

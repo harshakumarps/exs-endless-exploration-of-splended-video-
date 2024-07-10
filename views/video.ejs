@@ -1,0 +1,136 @@
+<head>
+  <link rel="stylesheet" type="text/css" href="/styles2.css">
+  <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+  <style>
+
+    #video-container {
+      max-width: 1700px;
+      margin: 0 auto;
+    }
+
+    .video-metadata {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+
+    .video-categories {
+      margin-bottom: 10px;
+    }
+
+    .video-tags {
+      margin-top: 10px;
+    }
+
+    .video-tags a {
+      margin-right: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  
+  <div id="video-container">
+    <video
+      id="my-video"
+      class="video-js"
+      controls
+      preload="auto"
+      width="100%" 
+      height="auto" 
+      data-setup="{}"
+    >
+      <source src="/uploads/<%= video.uri %>" type="video/mp4" />
+   
+    </video>
+
+
+    <div class="video-metadata">
+      <% if (videoDetails) { %>
+        <div>
+          <p id="likes-count"><%= videoDetails.likes %></p>
+          <button id="like-button">Like</button>
+        </div>
+
+        <div>
+          <p id="dislikes-count"><%= videoDetails.dislikes %></p>
+          <button id="dislike-button">Dislike</button>
+        </div>
+
+        <p>Views: <%= videoDetails.views %></p>
+      <% } else { %>
+        <p>Likes: 0</p>
+        <p>Dislikes: 0</p>
+        <p>Views: 0</p>
+      <% } %>
+    </div>
+
+
+    <div class="video-categories">
+      <h4>Categories:</h4>
+      <ul>
+        <% if (video && video.categories && video.categories.length > 0) { %>
+          <% video.categories.forEach(category => { %>
+            <% const individualCategories = category.split(',').map(c => c.trim()); %>
+            <% individualCategories.forEach(individualCategory => { %>
+              <li><a href="/videos/categories/<%= individualCategory %>"><%= individualCategory %></a></li>
+            <% }); %>
+          <% }); %>
+        <% } else { %>
+          <li>No categories available</li>
+        <% } %>
+      </ul>
+    </div>
+
+
+    <div class="video-tags">
+      <h4>Tags:</h4>
+      <ul>
+        <% if (video && video.tags && video.tags.length > 0) { %>
+          <% video.tags.forEach(tag => { %>
+            <% const individualTags = tag.split(',').map(t => t.trim()); %>
+            <% individualTags.forEach(individualTag => { %>
+              <% if (individualTag.startsWith('#')) { %>
+                <li><a href="/videos?tag=<%= individualTag.slice(1) %>"><%= individualTag %></a></li>
+              <% } else { %>
+                <li><%= individualTag %></li>
+              <% } %>
+            <% }); %>
+          <% }); %>
+        <% } else { %>
+          <li>No tags available</li>
+        <% } %>
+      </ul>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        var likesCount = document.getElementById('likes-count');
+        var dislikesCount = document.getElementById('dislikes-count');
+    
+        document.getElementById('like-button').addEventListener('click', function () {
+          handleButtonClicked('<%= video.id %>', 'like');
+        });
+    
+        document.getElementById('dislike-button').addEventListener('click', function () {
+          handleButtonClicked('<%= video.id %>', 'dislike');
+        });
+    
+        async function handleButtonClicked(videoId, action) {
+          try {
+            const response = await fetch(`/${action}/${videoId}`, { method: 'POST' });
+            const data = await response.json();
+    
+            if (data.likes !== undefined || data.dislikes !== undefined) {
+              likesCount.innerText = data.likes !== undefined ? data.likes : likesCount.innerText;
+              dislikesCount.innerText = data.dislikes !== undefined ? data.dislikes : dislikesCount.innerText;
+            }
+          } catch (error) {
+            console.error(`Error handling ${action}:`, error);
+          }
+        }
+      });
+    </script>
+  </div>
+</body>
+

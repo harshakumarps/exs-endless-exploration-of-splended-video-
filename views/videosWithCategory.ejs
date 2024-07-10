@@ -1,0 +1,50 @@
+<%- include('header.ejs') %>
+
+<head>
+
+  <link rel="stylesheet" type="text/css" href="/styles.css">
+</head>
+<body>
+  <div class="full">
+  <div class="video-grid">
+    <% for (let i = 0; i < videos.length; i++) { %>
+      <% if (i % 6 === 0) { %>
+        <div class="video-row">
+      <% } %>
+      <div class="video-thumbnail">
+        <a href="/video/<%= videos[i].id %>">
+          <img src="/<%= videos[i].thumbnail %>" alt="<%= videos[i].video_name %>">
+          <p class="video-name"><%= videos[i].video_name %></p>
+          
+          
+        </a>
+        <div style="display: flex; justify-content: space-between;">
+          <p class="Likes">Likes: <%= videos[i].likes %></p>
+          <p class="Likes">Dislikes: <%= videos[i].dislikes %></p>
+          <p class="Views">Views: <%= videos[i].views %></p>
+        </div>
+        
+          
+        
+      </div>
+      
+      <% if ((i + 1) % 6 === 0 || i === videos.length - 1) { %>
+        </div>
+      <% } %>
+    <% } %>
+  </div>
+
+  <div class="pagination-buttons">
+    <% if (currentPage > 1) { %>
+      <a href="/?page=<%= currentPage - 1 %>">Previous</a>
+    <% } %>
+
+    <% if (currentPage < totalPages) { %>
+      <a href="/?page=<%= currentPage + 1 %>">Next</a>
+    <% } %>
+  </div>
+</div>
+</body>
+
+
+<%- include('footer.ejs') %>

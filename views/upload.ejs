@@ -1,0 +1,137 @@
+<%- include('header.ejs') %>
+
+<main>
+    <h2>Upload Video</h2>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+
+        <label for="videoName">Video Name:</label>
+        <input type="text" id="videoName" name="videoName" required>
+        <label for="tags">Tags (comma-separated):</label>
+        <input type="text" id="tags" name="tags" required>
+
+        <label for="videoFile">Select Video File:</label>
+        <input type="file" id="videoFile" name="videoFile" accept="video/*" required>
+
+
+        <div id="categorySearch" onmouseleave="hideSuggestions()">
+            <label for="categorySearchInput">Search Categories:</label>
+            <input type="text" id="categorySearchInput" oninput="showSuggestions(this.value)" onfocus="showSuggestions(this.value)">
+            <div id="categorySuggestions"></div>
+        </div>
+
+
+        <div id="selectedCategoriesBox"></div>
+
+
+        <input type="hidden" name="categories">
+
+        <button type="submit">Upload Video</button>
+    </form>
+
+    <script>
+
+        const allCategories = ['Action', 'Comedy', 'Drama', 'Sci-Fi', 'Thriller', 'Adventure','Varun'];
+
+
+        function showSuggestions(input) {
+            const suggestionsContainer = document.getElementById('categorySuggestions');
+            suggestionsContainer.innerHTML = '';
+
+            const filteredCategories = allCategories.filter(category => category.toLowerCase().includes(input.toLowerCase()));
+
+            filteredCategories.forEach(category => {
+                const suggestionDiv = document.createElement('div');
+                suggestionDiv.classList.add('categorySuggestion');
+                suggestionDiv.textContent = category;
+                suggestionDiv.onclick = () => selectCategory(category);
+                suggestionsContainer.appendChild(suggestionDiv);
+            });
+
+            suggestionsContainer.style.display = filteredCategories.length > 0 ? 'block' : 'none';
+        }
+
+
+        function selectCategory(category) {
+            const selectedCategoriesBox = document.getElementById('selectedCategoriesBox');
+            const categoryDiv = document.createElement('div');
+            categoryDiv.classList.add('selectedCategory');
+            categoryDiv.textContent = category;
+
+            const removeIcon = document.createElement('span');
+            removeIcon.classList.add('removeCategoryIcon');
+            removeIcon.textContent = 'x';
+            removeIcon.onclick = () => removeCategory(categoryDiv);
+
+            categoryDiv.appendChild(removeIcon);
+            selectedCategoriesBox.appendChild(categoryDiv);
+
+
+            const hiddenInput = document.querySelector('input[name="categories"]');
+            hiddenInput.value = hiddenInput.value ? `${hiddenInput.value},${category}` : category;
+
+
+            hideSuggestions();
+        }
+
+
+        function removeCategory(categoryDiv) {
+            const selectedCategoriesBox = document.getElementById('selectedCategoriesBox');
+            selectedCategoriesBox.removeChild(categoryDiv);
+
+
+            const categoryName = categoryDiv.textContent.trim();
+            const hiddenInput = document.querySelector('input[name="categories"]');
+            hiddenInput.value = hiddenInput.value
+                .split(',')
+                .filter(cat => cat !== categoryName)
+                .join(',');
+        }
+
+
+        function hideSuggestions() {
+            const suggestionsContainer = document.getElementById('categorySuggestions');
+            suggestionsContainer.style.display = 'none';
+        }
+    </script>
+
+    <style>
+
+        #categorySearch {
+            margin-top: 20px;
+            position: relative;
+        }
+
+        #categorySuggestions {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .categorySuggestion {
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        #selectedCategoriesBox {
+            margin-top: 20px;
+        }
+
+        .selectedCategory {
+            display: inline-block;
+            background-color: #ddd;
+            padding: 5px 10px;
+            margin: 5px;
+        }
+
+        .removeCategoryIcon {
+            cursor: pointer;
+            margin-left: 5px;
+            font-weight: bold;
+        }
+    </style>
+</main>
+
+<%- include('footer.ejs') %>
