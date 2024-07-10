@@ -1,0 +1,74 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.full{
+  padding-bottom: 60px;
+}
+
+.video-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.video-name {
+  text-align: center; /* Center the video name */
+  margin-top: 5px; /* Add some space between the thumbnail and the video name */
+}
+
+.video-row {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.video-thumbnail {
+  margin: 25px;
+  text-align: center;
+  width: 250px; /* Set a fixed width for each thumbnail */
+  height: 250px; /* Set a fixed height for each thumbnail */
+  overflow: hidden; /* Ensure the thumbnail stays within the container */
+  
+  padding-bottom: 100px;
+}
+
+.video-thumbnail img {
+  width: 100%; /* Make the image fill the container */
+  height: 100%; /* Make the image fill the container */
+  object-fit: cover; /* Ensure the image covers the container */
+}
+
+.video-thumbnail p {
+  margin-top: 10px;
+  display: block;
+  position: relative;
+  bottom: 10;
+}
+.video-thumbnail Likes {
+  margin-top: 10px;
+  display: block;
+  position: n;
+  bottom: 10;
+}
+.video-thumbnail Views {
+  margin-top: 10px;
+  display: block;
+  position: relative;
+  bottom: 10;
+}
+
+.pagination-buttons {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.pagination-buttons a {
+  margin: 0 10px;
+  text-decoration: none;
+  padding: 5px 10px;
+  background-color: #007BFF;
+  color: #fff;
+  border-radius: 5px;
+}
+
