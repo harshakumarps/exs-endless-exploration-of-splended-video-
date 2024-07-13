@@ -1,6 +1,6 @@
-
 EXS Videos
-In this project, users can upload unlimited videos with some restrictions. The attached database file should be uploaded properly to ensure the system functions correctly. We are still working on implementing live streaming features.
+
+In this project, users can upload unlimited videos with some restrictions. The attached database file should be uploaded properly to ensure the system functions correctly. Users can see likes, maintain video status, and comment on videos. Although the user interface is basic, the functionality is robust. We are still working on implementing live streaming features.
 
 Below are snapshots of this project:
 ![p4](https://github.com/user-attachments/assets/73c9f699-0c08-46ef-884f-2701177db954)
